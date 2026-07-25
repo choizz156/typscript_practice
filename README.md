@@ -1,10 +1,10 @@
 # 🛒 타입스크립트 실습 프로젝트 - 미니 쇼핑몰
 
-타입스크립트 기본부터 클래스, 오버로딩, 유니언 타입까지 실습하며 배우는 프로젝트입니다.
+타입스크립트 기본부터 클래스, 오버로딩, 유니언 타입, 튜플 구조분해 할당까지 실습하며 배우는 프로젝트입니다.
 
 ---
 
-## 📝 오답 노트 & 오답 정리 (Learning Notes)
+## 📝 오답 노트 & 학습 정리 (Learning Notes)
 
 프로젝트를 진행하며 겪었던 실수와 해결 방법을 정리한 노틉니다.
 
@@ -67,3 +67,18 @@
 - **실수:** `if (typeof target === 'string')` 과 `if (typeof target === 'number')` 두 가지 `if` 문만 작성함.
   - TS의 `strict` 모드에서는 모든 코드 경로에서 `return`이 보장되어야 함 (두 `if`에 걸리지 않는 예외 상황 시 `undefined` 반환 가능성 문제).
 - **해결:** 두 번째 조건문을 `else`로 작성하여 어떤 상황에서도 반환값이 존재함을 보장.
+
+---
+
+### 7. 튜플 배열 순회 및 구조 분해 할당 (Destructuring)
+- **고민:** `CartItem`이 `[Product, number]` 튜플 배열이라 순회 시 `item[0]`, `item[1]` 처럼 인덱스 숫자로 접근해야 해서 코드가 직관적이지 않음.
+- **해결:** 구조 분해 할당 `([product, quantity])` 문법을 활용하여 인덱스 숫자 없이 직관적인 이름으로 순회 및 가독성 향상.
+  ```typescript
+  // 💡 구조 분해 할당으로 가독성 극대화
+  this.items.forEach(([product, quantity]) => {
+      total += product.price * quantity;
+  });
+
+  // filter에서도 필요한 요소만 쏙 받아서 필터링
+  this.items = this.items.filter(([product]) => product.id !== productId);
+  ```
