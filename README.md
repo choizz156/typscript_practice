@@ -1,6 +1,6 @@
 # 🛒 타입스크립트 실습 프로젝트 - 미니 쇼핑몰
 
-타입스크립트 기본부터 클래스, 오버로딩, 유니언 타입, 튜플 구조분해 할당까지 실습하며 배우는 프로젝트입니다.
+타입스크립트 기본부터 클래스, 오버로딩, 유니언 타입, 튜플 구조분해 할당, 사용자 정의 타입 가드까지 실습하며 배우는 프로젝트입니다.
 
 ---
 
@@ -81,4 +81,22 @@
 
   // filter에서도 필요한 요소만 쏙 받아서 필터링
   this.items = this.items.filter(([product]) => product.id !== productId);
+  ```
+
+---
+
+### 8. 사용자 정의 타입 가드 (`is`)와 `unknown` 타입 검증
+- **학습:** `is` 키워드를 사용하여 나만의 타입 가드(Type Guard) 돋보기를 작성할 수 있음.
+- **활용:** 
+  1. **서로소 유니언 식별:** `payment is CardPayment` 반환 타입을 통해 `payment.tag === "CARD"` 조건으로 안전하게 타입을 좁힘.
+  2. **`unknown` 타입 안심 검증:** 외부 알 수 없는 데이터(`unknown`)가 객체인지(`typeof input === "object" && input !== null`), 필요한 속성을 가졌는지(`"id" in input`) 단계별로 검증하여 안전하게 타입 확정.
+  ```typescript
+  export function isValidProduct(input: unknown): input is Product {
+      return typeof input === "object" 
+          && input !== null
+          && "id" in input
+          && "name" in input
+          && "price" in input
+          && "category" in input;
+  }
   ```
