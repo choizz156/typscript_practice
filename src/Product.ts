@@ -1,6 +1,6 @@
 import { Product, Category } from "./type";
 
-class ProductItem implements Product {
+export class ProductItem implements Product {
 
     constructor(
         public readonly id: number,
