@@ -1,6 +1,6 @@
 # 🛒 타입스크립트 실습 프로젝트 - 미니 쇼핑몰
 
-타입스크립트 기본부터 클래스, 오버로딩, 유니언 타입, 튜플 구조분해 할당, 사용자 정의 타입 가드, Discriminated Union과 never 안전장치까지 실습하며 배우는 프로젝트입니다.
+타입스크립트 기본부터 클래스, 오버로딩, 유니언 타입, 튜플 구조분해 할당, 사용자 정의 타입 가드, Discriminated Union과 never 안전장치, 제네릭 만능 저장소까지 실습하며 배우는 프로젝트입니다.
 
 ---
 
@@ -120,18 +120,32 @@
   - `default:` 블록에서 `const _exhaustiveCheck: never = payment;` 구문을 작성.
   - **효과:** 미래에 `Payment` 유니언에 새로운 결제 수단이 추가되었을 때, `switch` 문에 `case`를 추가하지 않으면 컴파일 단계에서 빌드 에러를 발생시켜 개발자의 실수를 예방함.
 - **언더바(`_`) 관례:** 변수명 앞의 `_`는 실제 코드 실행용이 아닌 타입 검사/경고 방지용 변수임을 나타내는 개발자 간의 관례.
+
+---
+
+### 11. 제네릭 만능 저장소 (`Repository<T extends { id: number }>`) 및 Map 활용
+- **학습:** `T extends { id: number }` 제약조건을 활용하여 `id`를 가진 모든 객체를 보관할 수 있는 만능 데이터베이스 클래스 구현.
+- **배열(`T[]`) vs Map(`Map<number, T>`) 구현 비교:**
+  - **배열 방식:** `findIndex`, `push`, `splice`, `filter` 사용.
+  - **Map 방식:** `set`, `get`, `delete`, `Array.from(values())`를 사용하여 1줄 코딩 및 O(1) 초고속 조회/삭제 구현.
   ```typescript
-  processPayment(payment: Payment): string {
-      switch (payment.tag) {
-          case "CARD":
-              return `카드 결제 승인: 카드번호 [${payment.cardNumber}], [${payment.installment}]개월 할부`;
-          case "CASH":
-              return `현금 결제 완료: [${payment.receivedAmount}]원 입금 확인`;
-          case "POINT":
-              return `포인트 결제 완료: [${payment.pointAmount}]점 차감`;
-          default:
-              const _exhaustiveCheck: never = payment;
-              throw new Error(`알 수 없는 결제 수단입니다: ${_exhaustiveCheck}`);
+  export class Repository<T extends { id: number }> {
+      private items: Map<number, T> = new Map();
+
+      saveItem(item: T): void {
+          this.items.set(item.id, item);
+      }
+
+      findById(id: number): T | undefined {
+          return this.items.get(id);
+      }
+
+      findAll(): T[] {
+          return Array.from(this.items.values());
+      }
+
+      deleteById(id: number): boolean {
+          return this.items.delete(id);
       }
   }
   ```

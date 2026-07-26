@@ -1,4 +1,4 @@
-import { Category, OrderStatus, CardPayment, CouponBook } from "./type";
+import { Category, OrderStatus, CardPayment } from "./type";
 import { ProductItem } from "./Product";
 import { Cart } from "./Cart";
 import { OrderProcessor } from "./Order";
