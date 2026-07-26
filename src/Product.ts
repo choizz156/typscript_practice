@@ -9,11 +9,12 @@ export class ProductItem implements Product {
         public category: Category
     ) {
     }
-
+   
     getInfo(): string {
         return `${this.name} - ${this.price}원`
     }
 
+    //오버로딩
     applyDiscount(discountRate: number): number;
     applyDiscount(couponCode: string): string;
 

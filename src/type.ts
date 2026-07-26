@@ -36,3 +36,10 @@ export type Payment = CardPayment | CashPayment | PointPayment
 export type CouponBook = {
     [key: string]: number;
 }
+export interface Order {
+    readonly id: number;
+    items: CartItem[];
+    totalPrice: number;
+    status: OrderStatus;
+    payment: Payment;
+}

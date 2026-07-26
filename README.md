@@ -1,6 +1,6 @@
 # 🛒 타입스크립트 실습 프로젝트 - 미니 쇼핑몰
 
-타입스크립트 기본부터 클래스, 오버로딩, 유니언 타입, 튜플 구조분해 할당, 사용자 정의 타입 가드까지 실습하며 배우는 프로젝트입니다.
+타입스크립트 기본부터 클래스, 오버로딩, 유니언 타입, 튜플 구조분해 할당, 사용자 정의 타입 가드, Discriminated Union과 never 안전장치까지 실습하며 배우는 프로젝트입니다.
 
 ---
 
@@ -98,5 +98,40 @@
           && "name" in input
           && "price" in input
           && "category" in input;
+  }
+  ```
+
+---
+
+### 9. 클래스 인스턴스 생성 (`new`)과 일반 객체 리터럴 `{}`의 차이
+- **실수:** `const item: ProductItem = { id: 1, name: "노트북", ... }` 객체 리터럴 형태로 생성 후 `item.getInfo()` 호출.
+  - **오류 발생:** `TypeError: item.getInfo is not a function`
+  - **원인:** 일반 객체 리터럴 `{}`에는 클래스의 프로토타입 메서드(`getInfo`, `applyDiscount`)가 탑재되어 있지 않음.
+- **해결:** 반드시 `new` 키워드를 사용하여 인스턴스 생성
+  ```typescript
+  const item = new ProductItem(1, "노트북", 1000000, Category.ELECTRONICS);
+  ```
+
+---
+
+### 10. Discriminated Union + `switch` 문과 `never` 안전장치
+- **학습:** `switch (payment.tag)` 를 사용하면 각 `case` 블록 내에서 `payment`가 `CardPayment`, `CashPayment` 등으로 자동 타입 좁히기(Narrowing)됨.
+- **`never` 안전장치 (Exhaustiveness Check):**
+  - `default:` 블록에서 `const _exhaustiveCheck: never = payment;` 구문을 작성.
+  - **효과:** 미래에 `Payment` 유니언에 새로운 결제 수단이 추가되었을 때, `switch` 문에 `case`를 추가하지 않으면 컴파일 단계에서 빌드 에러를 발생시켜 개발자의 실수를 예방함.
+- **언더바(`_`) 관례:** 변수명 앞의 `_`는 실제 코드 실행용이 아닌 타입 검사/경고 방지용 변수임을 나타내는 개발자 간의 관례.
+  ```typescript
+  processPayment(payment: Payment): string {
+      switch (payment.tag) {
+          case "CARD":
+              return `카드 결제 승인: 카드번호 [${payment.cardNumber}], [${payment.installment}]개월 할부`;
+          case "CASH":
+              return `현금 결제 완료: [${payment.receivedAmount}]원 입금 확인`;
+          case "POINT":
+              return `포인트 결제 완료: [${payment.pointAmount}]점 차감`;
+          default:
+              const _exhaustiveCheck: never = payment;
+              throw new Error(`알 수 없는 결제 수단입니다: ${_exhaustiveCheck}`);
+      }
   }
   ```
