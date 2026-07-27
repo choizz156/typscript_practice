@@ -1,6 +1,6 @@
 # 🛒 타입스크립트 실습 프로젝트 - 미니 쇼핑몰
 
-타입스크립트 기본부터 클래스, 오버로딩, 유니언 타입, 튜플 구조분해 할당, 사용자 정의 타입 가드, Discriminated Union과 never 안전장치, 제네릭 만능 저장소, 유틸리티 타입 DTO, 템플릿 리터럴 타입 기반 이벤트 시스템까지 실습하며 배우는 프로젝트입니다.
+타입스크립트 기본부터 클래스, 오버로딩, 유니언 타입, 튜플 구조분해 할당, 사용자 정의 타입 가드, Discriminated Union과 never 안전장치, 제네릭 만능 저장소, 유틸리티 타입 DTO, 템플릿 리터럴 타입 기반 이벤트 시스템, 비동기 Promise 시뮬레이션까지 실습하며 배우는 프로젝트입니다.
 
 ---
 
@@ -224,3 +224,40 @@
       }
   }
   ```
+
+---
+
+### 15. `Promise<T>` 비동기 통신 시뮬레이션 및 생성 방식 비교
+- **학습:** 제네릭 `ApiResponse<T>` 표준 응답 인터페이스와 비동기 `Promise` 모듈 작성.
+- **Promise 반환 3가지 대안 방식:**
+  1. `new Promise((resolve) => setTimeout(...))` ➡️ 지연 시간 시뮬레이션 시 사용.
+  2. `async` 키워드 ➡️ `return { ... }` 반환값이 자동으로 `Promise`로 감싸짐 (가장 선호됨).
+  3. `Promise.resolve(...)` ➡️ 준비된 성공 결과값을 1줄로 비동기 포장하여 즉시 반환.
+  ```typescript
+  export interface ApiResponse<T> {
+      success: boolean;
+      data?: T;
+      error?: string;
+  }
+
+  export const fetchProductsAsync = (category?: Category): Promise<ApiResponse<Product[]>> => {
+      return new Promise((resolve) => {
+          setTimeout(() => {
+              resolve({
+                  success: true,
+                  data: [ new ProductItem(1, "노트북", 1000000, Category.ELECTRONICS) ]
+              });
+          }, 1000);
+      });
+  };
+  ```
+
+---
+
+### 16. 자바스크립트 일급 객체 (First-Class Object) 특성
+- **질문:** 자바스크립트는 왜 함수를 변수에 저장할 수 있을까?
+- **원인:** 자바스크립트에서 함수는 단순 코드 조각이 아닌, 숫자(`10`)나 문자열(`"안녕"`)과 완전히 동등한 지위를 가진 **'일급 객체(First-Class Object)'** 이기 때문.
+- **일급 객체의 3가지 조건:**
+  1. 변수나 객체/배열에 값으로 저장할 수 있다. (`const fn = () => {}`)
+  2. 다른 함수의 매개변수(콜백 함수)로 전달할 수 있다. (`setTimeout(fn, 1000)`)
+  3. 다른 함수의 반환값(`return`)으로 돌려줄 수 있다.
