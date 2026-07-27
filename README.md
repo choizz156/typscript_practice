@@ -231,26 +231,8 @@
 - **학습:** 제네릭 `ApiResponse<T>` 표준 응답 인터페이스와 비동기 `Promise` 모듈 작성.
 - **Promise 반환 3가지 대안 방식:**
   1. `new Promise((resolve) => setTimeout(...))` ➡️ 지연 시간 시뮬레이션 시 사용.
-  2. `async` 키워드 ➡️ `return { ... }` 반환값이 자동으로 `Promise`로 감싸짐 (가장 선호됨).
+  2. `async` 키워드 ➡️ `return { ... }` 반환값이 자동으로 `Promise`로 감싸짐 (실무 선호).
   3. `Promise.resolve(...)` ➡️ 준비된 성공 결과값을 1줄로 비동기 포장하여 즉시 반환.
-  ```typescript
-  export interface ApiResponse<T> {
-      success: boolean;
-      data?: T;
-      error?: string;
-  }
-
-  export const fetchProductsAsync = (category?: Category): Promise<ApiResponse<Product[]>> => {
-      return new Promise((resolve) => {
-          setTimeout(() => {
-              resolve({
-                  success: true,
-                  data: [ new ProductItem(1, "노트북", 1000000, Category.ELECTRONICS) ]
-              });
-          }, 1000);
-      });
-  };
-  ```
 
 ---
 
@@ -261,3 +243,16 @@
   1. 변수나 객체/배열에 값으로 저장할 수 있다. (`const fn = () => {}`)
   2. 다른 함수의 매개변수(콜백 함수)로 전달할 수 있다. (`setTimeout(fn, 1000)`)
   3. 다른 함수의 반환값(`return`)으로 돌려줄 수 있다.
+
+---
+
+### 17. 서버 고도화 풀 파이프라인 통합 시나리오 (`src/index.ts`)
+- **학습:** 고도화된 모든 타입스크립트 모듈을 하나로 연결하여 실무 엔드-투-엔드 백엔드 파이프라인 구동.
+- **구동 순서:**
+  1. `OrderEventEmitter` 리스너 등록 (`on_PAID_order`)
+  2. `fetchProductsAsync` 1초 비동기 서버 조회
+  3. `Repository<ProductItem>` 만능 DB 저장소 보관
+  4. `ProductUpdateInput` DTO 특가 할인가 수정 (`laptop.update({ price: 850000 })`)
+  5. `Cart` 장바구니 담기 및 총 금액 계산
+  6. `processOrderAsync` 비동기 결제 실행 및 `OrderStatus.PAID` 상태 변경
+  7. `emitter.emit` 이벤트 자동 발송 및 콘솔 출력 완료
