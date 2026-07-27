@@ -7,7 +7,7 @@ export interface ApiResponse<T> {
     error?: string;
 }
 
-export const fetchProductsAsync = (category?: Category): Promise<ApiResponse<Product[]>> => {
+export const fetchProductsAsync = (category?: Category): Promise<ApiResponse<ProductItem[]>> => {
     return new Promise((resolve) => {
         setTimeout(() => {
             console.log(`요청된 카테고리: ${category}`);
