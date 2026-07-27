@@ -1,6 +1,6 @@
 # 🛒 타입스크립트 실습 프로젝트 - 미니 쇼핑몰
 
-타입스크립트 기본부터 클래스, 오버로딩, 유니언 타입, 튜플 구조분해 할당, 사용자 정의 타입 가드, Discriminated Union과 never 안전장치, 제네릭 만능 저장소까지 실습하며 배우는 프로젝트입니다.
+타입스크립트 기본부터 클래스, 오버로딩, 유니언 타입, 튜플 구조분해 할당, 사용자 정의 타입 가드, Discriminated Union과 never 안전장치, 제네릭 만능 저장소, 유틸리티 타입 DTO, 템플릿 리터럴 타입 기반 이벤트 시스템까지 실습하며 배우는 프로젝트입니다.
 
 ---
 
@@ -162,6 +162,65 @@
 
       deleteById(id: number): boolean {
           return this.items.delete(id);
+      }
+  }
+  ```
+
+---
+
+### 12. 내장 유틸리티 타입 기반 DTO (Data Transfer Object) 설계
+- **학습:** `Partial`, `Omit`, `Pick` 유틸리티 타입을 조합하여 안전한 데이터 전달 객체 구현.
+- **`ProductUpdateInput`:** `id` 수정은 금지하고 남은 속성만 선택적으로 받기 위해 `Partial<Omit<Product, "id">>` 적용.
+- **`ProductSummary`:** 필요한 속성만 쏙 골라내기 위해 `Pick<Product, "id" | "name" | "price">` 적용.
+  ```typescript
+  export type ProductUpdateInput = Partial<Omit<Product, "id">>;
+  export type ProductSummary = Pick<Product, "id" | "name" | "price">;
+
+  // ProductItem 내부 수정 메서드
+  update(input: ProductUpdateInput): void {
+      if (input.name !== undefined) this.name = input.name;
+      if (input.price !== undefined) this.price = input.price;
+      if (input.category !== undefined) this.category = input.category;
+  }
+  ```
+
+---
+
+### 13. `keyof typeof` 의 필요성과 Enum 동작 원리
+- **질문:** `keyof`를 쓰는데 왜 `typeof`가 필요할까?
+- **원인:**
+  - `keyof`는 오직 **'타입(Type/Interface)'** 의 키만 가져올 수 있음.
+  - `enum OrderStatus` 또는 일반 객체(`const obj = ...`)는 런타임에 메모리에 존재하는 **'실제 값/객체(Value)'** 임.
+  - 따라서 `typeof OrderStatus`로 값 객체를 타입으로 먼저 변환한 후 `keyof`를 붙여야 키 리터럴 유니언(`"PENDING" | "PAID" | ...`)이 정상 추출됨.
+  ```typescript
+  type statusKey = keyof typeof OrderStatus; // "PENDING" | "PAID" | "SHIPPING" | "DELIVERED" | "CANCELLED"
+  ```
+
+---
+
+### 14. 템플릿 리터럴 타입 (`OrderEventType`)과 이벤트 이미터 패턴
+- **학습:** 백틱(`` `on_${statusKey}_order` ``)을 사용하여 이벤트 이름 리터럴 유니언을 자동 생성.
+- **`OrderEventType`을 따로 만드는 이유:**
+  - 이벤트를 구독하는 사용자의 콜백 함수 `(event: OrderEventType, id: number) => void` 에게 **자동완성 및 오타 방지(타입 안전성)**를 제공하기 위해 필수적임.
+- **숫자형 Enum vs 문자열 Enum 차이:**
+  - 숫자형 Enum은 `OrderStatus[status]` 역방향 매핑 및 `as OrderEventType` 단언이 필요함.
+  - 문자열 Enum(`PENDING = "PENDING"`)으로 선언하면 `as` 타입 단언 없이 100% 깔끔하게 동적 템플릿 리터럴 타입이 추론됨.
+  ```typescript
+  export type OrderEventType = `on_${statusKey}_order`;
+  export type OrderEventListener = (event: OrderEventType, orderId: number) => void;
+
+  export class OrderEventEmitter {
+      private listeners: OrderEventListener[] = [];
+
+      on(listener: OrderEventListener) {
+          this.listeners.push(listener);
+      }
+
+      emit(status: OrderStatus, orderId: number) {
+          const eventName = `on_${OrderStatus[status]}_order` as OrderEventType;
+          this.listeners.forEach((listener) => {
+              listener(eventName, orderId);
+          });
       }
   }
   ```

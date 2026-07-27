@@ -1,3 +1,4 @@
+import { ProductUpdateInput } from "./dto";
 import { Product, Category } from "./type";
 
 export class ProductItem implements Product {
@@ -24,5 +25,11 @@ export class ProductItem implements Product {
         }
 
         return this.price * ((100 - target) / 100)
+    }
+
+    update(input: ProductUpdateInput){
+        if(input.name !== undefined) this.name = input.name;
+        if(input.price!== undefined) this.price= input.price;
+        if(input.category !== undefined) this.category = input.category;
     }
 }
