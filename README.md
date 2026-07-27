@@ -114,12 +114,28 @@
 
 ---
 
-### 10. Discriminated Union + `switch` 문과 `never` 안전장치
+### 10. Discriminated Union + `switch` 문과 `never` 안전장치 (Exhaustiveness Checking)
 - **학습:** `switch (payment.tag)` 를 사용하면 각 `case` 블록 내에서 `payment`가 `CardPayment`, `CashPayment` 등으로 자동 타입 좁히기(Narrowing)됨.
-- **`never` 안전장치 (Exhaustiveness Check):**
-  - `default:` 블록에서 `const _exhaustiveCheck: never = payment;` 구문을 작성.
-  - **효과:** 미래에 `Payment` 유니언에 새로운 결제 수단이 추가되었을 때, `switch` 문에 `case`를 추가하지 않으면 컴파일 단계에서 빌드 에러를 발생시켜 개발자의 실수를 예방함.
+- **`never` 안전장치 동작 원리 (`const _exhaustiveCheck: never = payment;`):**
+  1. **`never` 타입 규칙:** `never` 변수에는 오직 `never` 타입 데이터만 대입 가능 (실제 데이터 대입 시 컴파일 에러 발생).
+  2. **모든 케이스 처리 완료 시:** `CARD`, `CASH`, `POINT`를 모두 깎아냈으므로 `default:` 블록에서 `payment`는 아무것도 남지 않은 `never` 상태가 되어 무사 통과됨.
+  3. **결제 수단 추가 시 예방:** 나중에 `Payment` 유니언에 `KakaoPay`를 추가하고 `switch`문에서 `case`를 빼먹으면, `default:` 블록에 `KakaoPay` 타입이 남은 채 내려옴. 이때 `KakaoPay`를 `never` 변수에 대입하려고 하면서 즉시 **컴파일 에러**가 발생하여 누락을 완벽히 감지함.
 - **언더바(`_`) 관례:** 변수명 앞의 `_`는 실제 코드 실행용이 아닌 타입 검사/경고 방지용 변수임을 나타내는 개발자 간의 관례.
+  ```typescript
+  processPayment(payment: Payment): string {
+      switch (payment.tag) {
+          case "CARD":
+              return `카드 결제 승인: 카드번호 [${payment.cardNumber}], [${payment.installment}]개월 할부`;
+          case "CASH":
+              return `현금 결제 완료: [${payment.receivedAmount}]원 입금 확인`;
+          case "POINT":
+              return `포인트 결제 완료: [${payment.pointAmount}]점 차감`;
+          default:
+              const _exhaustiveCheck: never = payment;
+              throw new Error(`알 수 없는 결제 수단입니다: ${_exhaustiveCheck}`);
+      }
+  }
+  ```
 
 ---
 
