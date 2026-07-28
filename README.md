@@ -13,7 +13,8 @@
   - `:title` 툴팁 바인딩, `:class="{ red: isRed }"` 조건부 동적 클래스 토글, `:style="{ color }"` 인라인 스타일 동적 바인딩.
 - [x] **3. Conditionals and Loops (조건문과 반복문)** (`src/examples/Ex03_ConditionalsAndLoops.vue`)
   - `v-if="show && list.length"`, `v-else-if="list.length"`, `v-else` 조건부 삼중 바인딩 연쇄, `v-for="item of list" :key="item"` 배열 조작 (push, pop, reverse).
-- [ ] **4. Form Bindings (폼 바인딩)**
+- [x] **4. Form Bindings (폼 바인딩)** (`src/examples/Ex04_FormBindings.vue`)
+  - `v-model` 종합 폼 제어: Text Input, Single Checkbox (`boolean`), Multiple Checkbox (`ref<string[]>`), Radio Button, Select Dropdown, Multiple Select Dropdown.
 - [ ] **5. Simple Component (컴포넌트 분리)**
 
 ---
