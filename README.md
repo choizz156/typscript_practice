@@ -9,7 +9,8 @@
 ### 🟢 Level 1: Basic (기초 예제)
 - [x] **1. Handling User Input (사용자 입력 처리)** (`src/examples/Ex01_HandlingInput.vue`)
   - `@click` 이벤트 리스너, `ref.value.split('').reverse().join('')` 문자열 반전, `@click.prevent` 기본 동작 차단 수식어.
-- [ ] **2. Attribute Bindings (속성 바인딩)**
+- [x] **2. Attribute Bindings (속성 바인딩)** (`src/examples/Ex02_AttributeBindings.vue`)
+  - `:title` 툴팁 바인딩, `:class="{ red: isRed }"` 조건부 동적 클래스 토글, `:style="{ color }"` 인라인 스타일 동적 바인딩.
 - [ ] **3. Conditionals and Loops (조건문과 반복문)**
 - [ ] **4. Form Bindings (폼 바인딩)**
 - [ ] **5. Simple Component (컴포넌트 분리)**
