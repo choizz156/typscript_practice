@@ -6,7 +6,7 @@
 
 ## 🗺️ 전체 21개 예제 현황
 
-### 🟢 Level 1: Basic (기초 예제)
+### 🟢 Level 1: Basic (기초 예제) - **[100% 완수 🎉]**
 - [x] **1. Handling User Input (사용자 입력 처리)** (`src/examples/Ex01_HandlingInput.vue`)
   - `@click` 이벤트 리스너, `ref.value.split('').reverse().join('')` 문자열 반전, `@click.prevent` 기본 동작 차단 수식어.
 - [x] **2. Attribute Bindings (속성 바인딩)** (`src/examples/Ex02_AttributeBindings.vue`)
@@ -15,7 +15,8 @@
   - `v-if="show && list.length"`, `v-else-if="list.length"`, `v-else` 조건부 삼중 바인딩 연쇄, `v-for="item of list" :key="item"` 배열 조작 (push, pop, reverse).
 - [x] **4. Form Bindings (폼 바인딩)** (`src/examples/Ex04_FormBindings.vue`)
   - `v-model` 종합 폼 제어: Text Input, Single Checkbox (`boolean`), Multiple Checkbox (`ref<string[]>`), Radio Button, Select Dropdown, Multiple Select Dropdown.
-- [ ] **5. Simple Component (컴포넌트 분리)**
+- [x] **5. Simple Component (컴포넌트 분리)** (`src/examples/Ex05_SimpleComponent.vue`, `src/components/TodoItem.vue`)
+  - 자식 컴포넌트(`TodoItem.vue`) 생성, `defineProps<{ todo: { id: number; text: string } }>()` 타입 기반 수신, 부모에서 `v-for` 연동 Props 전달.
 
 ---
 
