@@ -21,22 +21,22 @@
 ---
 
 ### 🟡 Level 2: Practical (실무 응용)
-- [ ] **6. Markdown Editor (실시간 마크다운 에디터)**
-- [ ] **7. Fetching Data (외부 REST API 통신)**
-- [ ] **8. Grid with Sort and Filter (그리드 테이블 정렬 및 검색)**
-- [ ] **9. Tree View (트리 뷰 - 재귀 컴포넌트)**
-- [ ] **10. SVG Graph (SVG 그래프)**
-- [ ] **11. Modal Component (모달 팝업 & `<slot>`)**
-- [ ] **12. List Transition (목록 애니메이션)**
-- [ ] **13. TodoMVC (완성형 TodoApp)**
+- [x] **6. Fetching Data (외부 REST API 통신)** (`src/examples/Ex06_FetchingData.vue`)
+  - GitHub REST API (`https://api.github.com/commits?sha=`) 비동기 조회, `watchEffect` 자동 재요청, 비동기 `fetch` / `async-await`, 헬퍼 함수 가공.
+- [ ] **7. Grid with Sort and Filter (그리드 테이블 정렬 및 검색)**
+- [ ] **8. Tree View (트리 뷰 - 재귀 컴포넌트)**
+- [ ] **9. SVG Graph (SVG 그래프)**
+- [ ] **10. Modal Component (모달 팝업 & `<slot>`)**
+- [ ] **11. List Transition (목록 애니메이션)**
+- [ ] **12. TodoMVC (완성형 TodoApp)**
 
 ---
 
 ### 🔴 Level 3: 7 GUIs (UI 벤치마크 챌린지)
-- [ ] **14. Counter (카운터)**
-- [ ] **15. Temperature Converter (온도 변환기)**
-- [ ] **16. Flight Booker (항공권 예약 시스템)**
-- [ ] **17. Timer (타이머)**
-- [ ] **18. CRUD (회원/데이터 C.R.U.D 관리)**
-- [ ] **19. Circle Drawer (원 그리기 & Undo/Redo)**
-- [ ] **20. Cells (스프레드시트 셀 수식 연산)**
+- [ ] **13. Counter (카운터)**
+- [ ] **14. Temperature Converter (온도 변환기)**
+- [ ] **15. Flight Booker (항공권 예약 시스템)**
+- [ ] **16. Timer (타이머)**
+- [ ] **17. CRUD (회원/데이터 C.R.U.D 관리)**
+- [ ] **18. Circle Drawer (원 그리기 & Undo/Redo)**
+- [ ] **19. Cells (스프레드시트 셀 수식 연산)**
