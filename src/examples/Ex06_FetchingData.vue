@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
 
-const API_URL = `https://api.github.com/commits?per_page=3&sha=`;
+const API_URL = `https://api.github.com/repos/vuejs/core/commits?per_page=3&sha=`;
 const branches = ref(["main", "v2-compat"]);
 const currentBranch = ref("main");
 const commits = ref<any[] | null>(null);
