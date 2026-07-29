@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import GridTable, { type DataRow } from "./components/GridTable.vue";
+import GridTable, { type DataRow } from "../components/GridTable.vue";
 
 const searchQuery = ref("");
 const gridColumns = ref(["name", "power"]);
