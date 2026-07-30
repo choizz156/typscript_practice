@@ -1,36 +1,48 @@
 <template>
   <div>
-    <h2>8. Tree View (재귀 컴포넌트)</h2>
-    <p>💡 항목을 더블클릭하면 폴더로 변경되고, 클릭하면 폴더가 켜집니다.</p>
-    <!-- 💡 Root(최상위) 트리 노드 1개를 TreeItem 자식 컴포넌트에 넘겨주어 전체 트리를 개시! -->
-    <ul>
-      <TreeItem class="item" :model="treeData" />
-    </ul>
+    <h2>9. SVG Graph (동적 스탯 차트 예제)</h2>
+    <!-- 💡 자식 컴포넌트 PolyGraph 조립! @remove 이벤트 수신 -->
+    <PolyGraph :stats="stats" @remove="removeStat"/>
+    <!-- 💡 새로운 스탯 라벨 추가 폼 -->
+    <form @submit.prevent="addStat" style="margin-top: 15px;">
+      <input v-model="newTag" placeholder="새 스탯 이름 (예: F)"/>
+      <button type="submit">스탯 추가</button>
+    </form>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import TreeItem, { type TreeData } from "./components/TreeItem.vue";
+import PolyGraph, { type StatItem } from "./components/PolyGraph.vue";
 
-const treeData = ref<TreeData>({
-  name: 'My Tree',
-  children: [
-    { name: 'hello' },
-    { name: 'world' },
-    {
-      name: 'child folder',
-      children: [
-        {
-          name: 'child folder',
-          children: [{ name: 'hello' }, { name: 'world' }]
-        },
-        { name: 'hello' },
-        { name: 'world' }
-      ]
-    }
-  ]
-})
+const stats = ref<StatItem[]>([
+  {label: 'A', value: 100},
+  {label: 'B', value: 100},
+  {label: 'C', value: 100},
+  {label: 'D', value: 100},
+  {label: 'E', value: 100},
+  {label: 'F', value: 100}
+])
+
+const newTag = ref('')
+
+// 💡 새로운 스탯 추가 메서드
+function addStat() {
+  if (!newTag.value.trim()) return
+  stats.value.push({
+    label: newTag.value.trim(),
+    value: 100
+  })
+  newTag.value = ''
+}
+
+function removeStat(stat: StatItem) {
+  if (stats.value.length > 3) {
+    stats.value = stats.value.filter((s) => s !== stat)
+  } else {
+    alert('최소 3개 이상의 스탯이 있어야 차트를 그릴 수 있습니다!')
+  }
+}
 </script>
 
 <style scoped>

@@ -27,7 +27,8 @@
   - 자식 컴포넌트(`GridTable.vue`) 생성 및 TypeScript 인터페이스(`interface DataRow`) 정의, `computed` 검색 필터링 & `sort()` 오름차순/내림차순 컬럼 정렬, 동적 CSS 클래스 (`.asc`, `.dsc`).
 - [x] **8. Tree View (트리 뷰 - 재귀 컴포넌트)** (`src/examples/Ex08_TreeView.vue`, `src/components/TreeItem.vue`)
   - 자기 자신을 템플릿 내부에서 다시 부르는 재귀 컴포넌트(`TreeItem`), 재귀 인터페이스(`interface TreeData`), 더블클릭(`@dblclick`)으로 일반 파일 ➔ 폴더 변환, 옵셔널 체이닝(`children?.push`) NPE 방지.
-- [ ] **9. SVG Graph (SVG 그래프)**
+- [x] **9. SVG Graph (SVG 그래프)** (`src/examples/Ex09_SVGGraph.vue`, `src/components/PolyGraph.vue`)
+  - SVG `<polygon>` 및 `<circle>` 벡터 차트 그리기, 삼각함수(`Math.sin`, `Math.cos`) 기반 스탯 X,Y 좌표 산출 `computed`, `v-model.number` 슬라이더 실시간 차트 변형.
 - [ ] **10. Modal Component (모달 팝업 & `<slot>`)**
 - [ ] **11. List Transition (목록 애니메이션)**
 - [ ] **12. TodoMVC (완성형 TodoApp)**
