@@ -24,8 +24,9 @@
 - [x] **6. Fetching Data (외부 REST API 통신)** (`src/examples/Ex06_FetchingData.vue`)
   - GitHub REST API (`https://api.github.com/repos/vuejs/core/commits?sha=`) 비동기 조회, `watchEffect` 자동 재요청, 비동기 `fetch` / `async-await`, 헬퍼 함수 가공.
 - [x] **7. Grid with Sort and Filter (그리드 테이블 정렬 및 검색)** (`src/examples/Ex07_GridComponent.vue`, `src/components/GridTable.vue`)
-  - 자식 컴포넌트(`GridTable.vue`) 생성 및 TypeScript 인터페이스(`interface DataRow`) 정의, `computed` 검색 필터링 & `sort()` 오름차순/내림차순 컬럼 정렬,동적 CSS 클래스 (`.asc`, `.dsc`).
-- [ ] **8. Tree View (트리 뷰 - 재귀 컴포넌트)**
+  - 자식 컴포넌트(`GridTable.vue`) 생성 및 TypeScript 인터페이스(`interface DataRow`) 정의, `computed` 검색 필터링 & `sort()` 오름차순/내림차순 컬럼 정렬, 동적 CSS 클래스 (`.asc`, `.dsc`).
+- [x] **8. Tree View (트리 뷰 - 재귀 컴포넌트)** (`src/examples/Ex08_TreeView.vue`, `src/components/TreeItem.vue`)
+  - 자기 자신을 템플릿 내부에서 다시 부르는 재귀 컴포넌트(`TreeItem`), 재귀 인터페이스(`interface TreeData`), 더블클릭(`@dblclick`)으로 일반 파일 ➔ 폴더 변환, 옵셔널 체이닝(`children?.push`) NPE 방지.
 - [ ] **9. SVG Graph (SVG 그래프)**
 - [ ] **10. Modal Component (모달 팝업 & `<slot>`)**
 - [ ] **11. List Transition (목록 애니메이션)**
