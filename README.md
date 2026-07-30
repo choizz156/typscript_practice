@@ -42,3 +42,29 @@
 - [ ] **17. CRUD (회원/데이터 C.R.U.D 관리)**
 - [ ] **18. Circle Drawer (원 그리기 & Undo/Redo)**
 - [ ] **19. Cells (스프레드시트 셀 수식 연산)**
+
+---
+
+## 💡 [예제 8] 핵심 Q&A 및 백엔드 관점 개념 정리
+
+### 1. `children?: TreeData[]` 의 의미와 재귀 타입
+- `?` (선택적 프로퍼티): 일반 파일일 때는 `children` 속성이 없어 `undefined`이고, 폴더일 때는 `children` 배열을 가짐.
+- `TreeData[]`: 자기 자신 클래스/타입을 참조하는 **재귀 데이터 구조**.
+  - **Java 비유:** `public class TreeData { private String name; private List<TreeData> children; }` (카테고리/댓글 트리 엔티티와 동일).
+
+### 2. 옵셔널 체이닝 (`props.model.children?.push(...)`)
+- `?.` 은 자바의 `NullPointerException` (NPE)을 방지하는 안전장치 연산자.
+- `children` 이 `undefined` 이면 `.push()` 호출을 무시하고, 배열일 때만 안전하게 실행.
+  - **Java 비유:** `Optional.ofNullable(model.getChildren()).ifPresent(c -> c.add(...));`
+
+### 3. 파일 ➔ 폴더 변환 (`changeType()`) 메커니즘
+```typescript
+function changeType() {
+  if (!isFolder.value) {
+    props.model.children = []  // 1. 빈 배열을 할당하여 폴더 상자로 변환!
+    addChild()                 // 2. 상자 안에 { name: 'new stuff' } 객체 밀어넣기!
+    isOpen.value = true        // 3. 폴더를 열어서 하위 노드 표시!
+  }
+}
+```
+- `props.model.children = []` 할당 시, TypeScript 인터페이스에 따라 빈 배열이 자동으로 `TreeData[]` 타입으로 추론 및 지정됨.

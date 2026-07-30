@@ -36,6 +36,7 @@ function toggle() {
     }
 }
 
+//일반 파일 항목을 ➔ 빈 폴더 배열([])로 바꿔서 폴더로 변환시킨 뒤 하위 항목 추가
 function changeType() {
     if (!isFolder.value) {
         props.model.children = []
